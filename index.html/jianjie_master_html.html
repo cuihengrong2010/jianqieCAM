@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>简切大师 — 数控铣削简易编程 CAM 软件</title>
+  <meta name="description" content="简切大师专为数控铣削工程师设计，无需编程基础，快速完成加工程序编写，一键生成 G 代码。免费下载。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #1a1a1a;
+      background: #ffffff;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── 导航 ── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 56px;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { font-size: 18px; font-weight: 600; letter-spacing: 0.02em; }
+    .nav-logo span { color: #1a6fc4; }
+    .nav-links { display: flex; gap: 1.5rem; font-size: 14px; color: #555; }
+    .nav-links a:hover { color: #1a1a1a; }
+    .nav-btn {
+      background: #1a6fc4;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .nav-btn:hover { background: #155fa0; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: #e6f1fb;
+      color: #0c447c;
+      font-size: 12px;
+      padding: 4px 14px;
+      border-radius: 6px;
+      margin-bottom: 1.25rem;
+      font-weight: 500;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      color: #111;
+    }
+    .hero h1 em { font-style: normal; color: #1a6fc4; }
+    .hero p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .btn-primary {
+      background: #1a6fc4;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 11px 30px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: #155fa0; }
+    .btn-secondary {
+      background: transparent;
+      color: #1a1a1a;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 11px 26px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { background: #f5f5f5; }
+    .hero-meta { font-size: 13px; color: #888; }
+    .hero-meta a { color: #1a6fc4; }
+    .hero-meta a:hover { text-decoration: underline; }
+
+    /* ── 通用 section ── */
+    .section { padding: 3rem 2rem; border-top: 1px solid #e8e8e8; }
+    .section-inner { max-width: 720px; margin: 0 auto; }
+    .section-title { font-size: 20px; font-weight: 600; margin-bottom: 1.5rem; color: #111; }
+
+    /* ── 功能卡片 ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+    .feat-card {
+      background: #f7f8fa;
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .feat-icon { font-size: 24px; color: #1a6fc4; margin-bottom: 10px; }
+    .feat-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111; }
+    .feat-card p { font-size: 13px; color: #666; line-height: 1.65; }
+
+    /* ── 步骤 ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+    .step { display: flex; flex-direction: column; gap: 8px; }
+    .step-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: #1a6fc4;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600;
+    }
+    .step h3 { font-size: 14px; font-weight: 600; color: #111; }
+    .step p { font-size: 13px; color: #666; line-height: 1.65; }
+
+    /* ── 下载区 ── */
+    .dl-box {
+      background: #f7f8fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .dl-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #111; }
+    .dl-info p { font-size: 13px; color: #666; }
+    .dl-btn {
+      background: #1a6fc4;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .dl-btn:hover { background: #155fa0; }
+
+    /* ── 页脚 ── */
+    .footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+      color: #888;
+    }
+    .footer-links { display: flex; gap: 1.25rem; }
+    .footer-links a:hover { color: #1a1a1a; }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 28px; }
+      .nav-links { display: none; }
+      .dl-box { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-logo">简切<span>大师</span></div>
+    <div class="nav-links">
+      <a href="#features">功能介绍</a>
+      <a href="#steps">使用方法</a>
+      <a href="#download">下载</a>
+      <a href="#about">关于</a>
+    </div>
+    <button class="nav-btn" onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'})">
+      免费下载
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">免费 · Windows · 简单易用</div>
+    <h1>面向数控铣削的<br><em>简易编程 CAM</em></h1>
+    <p>简切大师专为数控铣削工程师设计，无需编程基础，快速完成加工程序编写，一键生成 G 代码。</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'})">
+        ↓ 免费下载
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+        查看功能介绍
+      </button>
+    </div>
+    <div class="hero-meta">
+      当前版本 v1.0 · 支持 Windows 10 / 11 · <a href="#">更新日志</a>
+    </div>
+  </section>
+
+  <!-- 功能介绍 -->
+  <section class="section" id="features">
+    <div class="section-inner">
+      <div class="section-title">核心功能</div>
+      <div class="features">
+        <div class="feat-card">
+          <div class="feat-icon">◧</div>
+          <h3>简易编程</h3>
+          <p>通过面选择直接定义加工区域，无需手动计算坐标，操作直观高效。</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">⤷</div>
+          <h3>刀路生成</h3>
+          <p>自动计算最优走刀路径，支持多种铣削策略，减少空走刀。</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">{ }</div>
+          <h3>G 代码输出</h3>
+          <p>一键导出标准 G 代码，兼容主流数控系统，可直接上机运行。</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">▷</div>
+          <h3>仿真预览</h3>
+          <p>加工前预览刀路动画，确认无误再下机，避免碰撞和废料。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使用步骤 -->
+  <section class="section" id="steps">
+    <div class="section-inner">
+      <div class="section-title">三步开始使用</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>下载安装</h3>
+          <p>下载安装包，双击运行即可完成安装，全程不到一分钟。</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>导入模型 / 绘图</h3>
+          <p>导入零件模型或直接绘制加工面，设置刀具和切削参数。</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>生成 G 代码</h3>
+          <p>一键生成并导出 G 代码，直接传输到数控机床加工。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 下载 -->
+  <section class="section" id="download">
+    <div class="section-inner">
+      <div class="section-title">下载</div>
+      <div class="dl-box">
+        <div class="dl-info">
+          <h3>简切大师 v1.0</h3>
+          <p>Windows 10 / 11 · 64位 · 安装包</p>
+        </div>
+        <!-- 将 href 替换为你的实际下载链接 -->
+        <a href="YOUR_DOWNLOAD_LINK_HERE">
+          <button class="dl-btn">↓ 下载 .exe 安装包</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section class="section" id="about">
+    <div class="section-inner">
+      <div class="section-title">关于</div>
+      <p style="font-size:14px; color:#555; max-width:560px; line-height:1.8;">
+        简切大师是一款面向数控铣削的简易编程 CAM 软件，完全免费。
+        如有问题或建议，欢迎通过下方邮箱联系。
+      </p>
+      <p style="margin-top:0.75rem; font-size:14px; color:#555;">
+        联系邮箱：<a href="mailto:your@email.com" style="color:#1a6fc4;">your@email.com</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <span>© 2025 简切大师</span>
+    <div class="footer-links">
+      <a href="#">使用文档</a>
+      <a href="#">问题反馈</a>
+      <a href="#">更新日志</a>
+    </div>
+  </footer>
+
+</body>
+</html>
